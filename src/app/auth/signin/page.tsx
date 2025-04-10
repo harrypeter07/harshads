@@ -21,23 +21,16 @@ export default function SignIn() {
 			const result = await signIn("credentials", {
 				email,
 				password,
-				isSignUp: "false",
 				redirect: false,
 			});
 
 			if (result?.error) {
 				setError(result.error);
 			} else {
-				// Get the user's role from the session
-				const response = await fetch("/api/auth/session");
-				const session = await response.json();
-				const userRole = session?.user?.role;
-
-				if (userRole) {
-					router.push(`/dashboard/${userRole}`);
-				} else {
-					setError("Error: User role not found");
-				}
+				// The role will be returned in the JWT token and available in the session
+				// NextAuth will handle this automatically based on our configuration
+				router.refresh(); // Refresh to update the session
+				router.push("/"); // Redirect to home page, which will then redirect based on role
 			}
 		} catch (error) {
 			console.error("Error:", error);
@@ -92,11 +85,7 @@ export default function SignIn() {
 						/>
 					</div>
 
-					<button
-						type="submit"
-						className="form-button"
-						disabled={loading}
-					>
+					<button type="submit" className="form-button" disabled={loading}>
 						{loading ? "Signing in..." : "Sign in"}
 					</button>
 				</form>

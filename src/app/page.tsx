@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useState, useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -11,6 +11,14 @@ export default function Home() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
 	const router = useRouter();
+	const { data: session } = useSession();
+
+	// Handle role-based redirection when session changes
+	useEffect(() => {
+		if (session?.user?.role) {
+			router.push(`/profile/${session.user.role}`);
+		}
+	}, [session, router]);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -32,18 +40,8 @@ export default function Home() {
 
 			if (result?.error) {
 				setError(result.error);
-			} else {
-				// Get the user's role from the session
-				const response = await fetch("/api/auth/session");
-				const session = await response.json();
-				const userRole = session?.user?.role;
-
-				if (userRole) {
-					router.push(`/profile/${userRole}`);
-				} else {
-					setError("Error: User role not found");
-				}
 			}
+			// No need for else block - useEffect will handle redirection when session updates
 		} catch (error) {
 			console.error("Error:", error);
 			setError("An unexpected error occurred");
