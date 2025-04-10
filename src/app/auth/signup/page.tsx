@@ -63,13 +63,13 @@ export default function SignUp() {
 	};
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
-			<div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
+		<div className="flex items-center justify-center min-h-screen px-4 py-12 bg-gradient-to-br from-indigo-50 to-blue-50 sm:px-6 lg:px-8">
+			<div className="w-full max-w-md p-10 space-y-8 bg-white shadow-lg rounded-xl">
 				<div>
-					<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+					<h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
 						Create your account
 					</h2>
-					<p className="mt-2 text-center text-sm text-gray-600">
+					<p className="mt-2 text-sm text-center text-gray-600">
 						Or{" "}
 						<Link
 							href="/auth/signin"
@@ -88,8 +88,8 @@ export default function SignUp() {
 							Full Name
 						</label>
 						<div className="relative">
-							<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-								<FiUser className="h-5 w-5 text-gray-400" />
+							<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+								<FiUser className="w-5 h-5 text-gray-400" />
 							</div>
 							<input
 								type="text"
@@ -109,8 +109,8 @@ export default function SignUp() {
 							Email
 						</label>
 						<div className="relative">
-							<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-								<FiMail className="h-5 w-5 text-gray-400" />
+							<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+								<FiMail className="w-5 h-5 text-gray-400" />
 							</div>
 							<input
 								type="email"
@@ -130,8 +130,8 @@ export default function SignUp() {
 							Password
 						</label>
 						<div className="relative">
-							<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-								<FiLock className="h-5 w-5 text-gray-400" />
+							<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+								<FiLock className="w-5 h-5 text-gray-400" />
 							</div>
 							<input
 								type="password"
@@ -151,8 +151,8 @@ export default function SignUp() {
 							Confirm Password
 						</label>
 						<div className="relative">
-							<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-								<FiLock className="h-5 w-5 text-gray-400" />
+							<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+								<FiLock className="w-5 h-5 text-gray-400" />
 							</div>
 							<input
 								type="password"
@@ -172,8 +172,8 @@ export default function SignUp() {
 							Role
 						</label>
 						<div className="relative">
-							<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-								<FiBriefcase className="h-5 w-5 text-gray-400" />
+							<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+								<FiBriefcase className="w-5 h-5 text-gray-400" />
 							</div>
 							<select
 								id="role"
