@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import ProfileInfoCard from "@/components/ProfileInfoCard";
 import { ProfileData } from "@/components/ProfileInfoCard";
+import { profiles } from "@/lib/mockData";
 
 export default function JobSeekerProfile() {
 	const { data: session, status } = useSession();
@@ -22,12 +23,12 @@ export default function JobSeekerProfile() {
 
 	const fetchProfile = async () => {
 		try {
-			const response = await fetch("/api/profile/job-seeker");
-			if (response.ok) {
-				const data = await response.json();
-				setProfile(data);
+			// Use mock data instead of API call
+			const mockProfile = profiles.candidate[session?.user?.id as string];
+			if (mockProfile) {
+				setProfile(mockProfile);
 			} else {
-				console.error("Failed to fetch profile");
+				console.error("Profile not found");
 			}
 		} catch (error) {
 			console.error("Error fetching profile:", error);

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { profiles } from "@/lib/mockData";
 
 export default function EditJobSeekerProfile() {
 	const { data: session, status } = useSession();
@@ -38,12 +39,12 @@ export default function EditJobSeekerProfile() {
 
 	const fetchProfile = async () => {
 		try {
-			const response = await fetch("/api/profile/job-seeker");
-			if (response.ok) {
-				const data = await response.json();
+			// Use mock data instead of API call
+			const mockProfile = profiles.candidate[session?.user?.id as string];
+			if (mockProfile) {
 				setFormData({
-					...data,
-					skills: data.skills?.join(", ") || "",
+					...mockProfile,
+					skills: mockProfile.skills?.join(", ") || "",
 				});
 			}
 		} catch (error) {
@@ -56,21 +57,11 @@ export default function EditJobSeekerProfile() {
 		setIsSubmitting(true);
 
 		try {
-			const response = await fetch("/api/profile/job-seeker", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(formData),
-			});
-
-			if (response.ok) {
-				// Redirect back to profile view page after successful update
-				router.push("/profile/job-seeker");
-			} else {
-				const data = await response.json();
-				alert(data.error || "Error saving profile");
-			}
+			// Update mock data instead of API call
+			// In a real application, you would update the backend
+			// For now, we'll just simulate a successful update
+			await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate network delay
+			router.push("/profile/job-seeker");
 		} catch (error) {
 			console.error("Error:", error);
 			alert("Error saving profile");
