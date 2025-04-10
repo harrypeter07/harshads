@@ -65,7 +65,7 @@ export async function POST(request: Request) {
 					company,
 					position,
 					startDate: new Date().toISOString(),
-					endDate: null,
+					endDate: new Date().toISOString(),
 					description: "Current position",
 				},
 			],
