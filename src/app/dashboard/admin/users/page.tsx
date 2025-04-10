@@ -30,7 +30,7 @@ export default function AdminUsers() {
 		if (searchTerm) {
 			const term = searchTerm.toLowerCase();
 			result = result.filter((user) => {
-				const profile = profiles.find((p) => p.userId === user.id);
+				const profile = profiles[user.id];
 				const profileName = profile
 					? `${profile.firstName} ${profile.lastName}`
 					: user.name;
