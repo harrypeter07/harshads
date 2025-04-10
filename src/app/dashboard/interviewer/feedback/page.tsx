@@ -126,8 +126,9 @@ export default function Feedback() {
 												type="button"
 												onClick={() => handleRatingChange(rating.name, value)}
 												className={`w-8 h-8 rounded-full flex items-center justify-center ${
-													feedback[rating.name as keyof typeof feedback] >=
-													value
+													(feedback[
+														rating.name as keyof typeof feedback
+													] as number) >= value
 														? "bg-purple-600 text-white"
 														: "bg-gray-200 text-gray-600"
 												}`}
