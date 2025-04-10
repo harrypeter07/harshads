@@ -31,9 +31,14 @@ export default function AdminUsers() {
 			const term = searchTerm.toLowerCase();
 			result = result.filter((user) => {
 				const profile = profiles.find((p) => p.userId === user.id);
+				const profileName = profile
+					? "firstName" in profile
+						? `${profile.firstName} ${profile.lastName}`
+						: profile.name
+					: "";
 				return (
 					user.email.toLowerCase().includes(term) ||
-					(profile?.name?.toLowerCase().includes(term) ?? false)
+					profileName.toLowerCase().includes(term)
 				);
 			});
 		}
