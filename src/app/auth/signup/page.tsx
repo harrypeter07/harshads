@@ -15,6 +15,7 @@ import {
 export default function SignUp() {
 	const router = useRouter();
 	const [formData, setFormData] = useState({
+		name: "",
 		email: "",
 		password: "",
 		confirmPassword: "",
@@ -38,14 +39,21 @@ export default function SignUp() {
 			const response = await fetch("/api/auth/signup", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(formData),
+				body: JSON.stringify({
+					name: formData.name,
+					email: formData.email,
+					password: formData.password,
+					role: formData.role,
+				}),
 			});
 
+			const data = await response.json();
+
 			if (!response.ok) {
-				const data = await response.json();
 				throw new Error(data.message || "Failed to create account");
 			}
 
+			// Redirect to sign in page on success
 			router.push("/auth/signin");
 		} catch (err: any) {
 			setError(err.message);
@@ -63,19 +71,39 @@ export default function SignUp() {
 					</h2>
 					<p className="mt-2 text-center text-sm text-gray-600">
 						Or{" "}
-						<Link href="/auth/signin" className="font-medium text-indigo-600 hover:text-indigo-500">
+						<Link
+							href="/auth/signin"
+							className="font-medium text-indigo-600 hover:text-indigo-500"
+						>
 							sign in to your account
 						</Link>
 					</p>
 				</div>
-				
-				{error && (
-					<div className={errorStyles}>
-						{error}
-					</div>
-				)}
+
+				{error && <div className={errorStyles}>{error}</div>}
 
 				<form onSubmit={handleSubmit} className="space-y-6">
+					<div>
+						<label htmlFor="name" className={labelStyles}>
+							Full Name
+						</label>
+						<div className="relative">
+							<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+								<FiUser className="h-5 w-5 text-gray-400" />
+							</div>
+							<input
+								type="text"
+								id="name"
+								value={formData.name}
+								onChange={(e) =>
+									setFormData({ ...formData, name: e.target.value })
+								}
+								className={inputStyles + " pl-10"}
+								required
+							/>
+						</div>
+					</div>
+
 					<div>
 						<label htmlFor="email" className={labelStyles}>
 							Email
@@ -140,48 +168,25 @@ export default function SignUp() {
 					</div>
 
 					<div>
-						<label className={labelStyles}>Role</label>
-						<div className="mt-2 space-y-4">
-							<div className="flex items-center">
-								<input
-									type="radio"
-									id="job-seeker"
-									name="role"
-									value="job-seeker"
-									checked={formData.role === "job-seeker"}
-									onChange={(e) =>
-										setFormData({ ...formData, role: e.target.value })
-									}
-									className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
-								/>
-								<label
-									htmlFor="job-seeker"
-									className="ml-3 flex items-center cursor-pointer"
-								>
-									<FiUser className="h-5 w-5 text-purple-600 mr-2" />
-									<span className="text-gray-700">Job Seeker</span>
-								</label>
+						<label htmlFor="role" className={labelStyles}>
+							Role
+						</label>
+						<div className="relative">
+							<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+								<FiBriefcase className="h-5 w-5 text-gray-400" />
 							</div>
-							<div className="flex items-center">
-								<input
-									type="radio"
-									id="interviewer"
-									name="role"
-									value="interviewer"
-									checked={formData.role === "interviewer"}
-									onChange={(e) =>
-										setFormData({ ...formData, role: e.target.value })
-									}
-									className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
-								/>
-								<label
-									htmlFor="interviewer"
-									className="ml-3 flex items-center cursor-pointer"
-								>
-									<FiBriefcase className="h-5 w-5 text-purple-600 mr-2" />
-									<span className="text-gray-700">Interviewer</span>
-								</label>
-							</div>
+							<select
+								id="role"
+								value={formData.role}
+								onChange={(e) =>
+									setFormData({ ...formData, role: e.target.value })
+								}
+								className={inputStyles + " pl-10"}
+								required
+							>
+								<option value="job-seeker">Job Seeker</option>
+								<option value="interviewer">Interviewer</option>
+							</select>
 						</div>
 					</div>
 
@@ -189,19 +194,9 @@ export default function SignUp() {
 						<button
 							type="submit"
 							disabled={loading}
-							className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+							className={primaryButtonStyles}
 						>
-							{loading ? (
-								<div className="flex items-center">
-									<svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-										<circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-										<path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-									</svg>
-									Creating account...
-								</div>
-							) : (
-								"Create account"
-							)}
+							{loading ? "Creating account..." : "Create account"}
 						</button>
 					</div>
 				</form>

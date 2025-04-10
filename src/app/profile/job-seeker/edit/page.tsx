@@ -3,12 +3,12 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { profiles } from "@/lib/mockData";
 
 export default function EditJobSeekerProfile() {
 	const { data: session, status } = useSession();
 	const router = useRouter();
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [error, setError] = useState("");
 	const [formData, setFormData] = useState({
 		firstName: "",
 		lastName: "",
@@ -39,12 +39,12 @@ export default function EditJobSeekerProfile() {
 
 	const fetchProfile = async () => {
 		try {
-			// Use mock data instead of API call
-			const mockProfile = profiles.candidate[session?.user?.id as string];
-			if (mockProfile) {
+			const response = await fetch("/api/profile/job-seeker");
+			if (response.ok) {
+				const data = await response.json();
 				setFormData({
-					...mockProfile,
-					skills: mockProfile.skills?.join(", ") || "",
+					...data,
+					skills: data.skills?.join(", ") || "",
 				});
 			}
 		} catch (error) {
@@ -54,17 +54,26 @@ export default function EditJobSeekerProfile() {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setError("");
 		setIsSubmitting(true);
 
 		try {
-			// Update mock data instead of API call
-			// In a real application, you would update the backend
-			// For now, we'll just simulate a successful update
-			await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate network delay
-			router.push("/profile/job-seeker");
-		} catch (error) {
-			console.error("Error:", error);
-			alert("Error saving profile");
+			const response = await fetch("/api/profile/job-seeker", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(formData),
+			});
+
+			if (!response.ok) {
+				const data = await response.json();
+				throw new Error(data.message || "Failed to update profile");
+			}
+
+			// Redirect to dashboard on success
+			router.push("/dashboard/job-seeker");
+			router.refresh(); // Refresh the page to show updated data
+		} catch (err: any) {
+			setError(err.message);
 		} finally {
 			setIsSubmitting(false);
 		}

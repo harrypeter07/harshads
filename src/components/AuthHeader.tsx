@@ -8,15 +8,15 @@ export default function AuthHeader() {
 	const { data: session } = useSession();
 
 	return (
-		<header className="bg-white shadow-sm border-b border-gray-100">
-			<nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<header className="bg-white border-b border-gray-100 shadow-sm">
+			<nav className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 				<div className="flex justify-between h-16">
 					<div className="flex">
 						<Link
 							href="/"
 							className="flex items-center"
 						>
-							<span className="text-2xl font-bold gradient-text">JOBIFY</span>
+							<span className="text-2xl font-bold gradient-text">NAYI DISHA</span>
 						</Link>
 					</div>
 
@@ -27,13 +27,13 @@ export default function AuthHeader() {
 							<div className="flex items-center space-x-4">
 								<Link
 									href="/auth/signin"
-									className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+									className="px-3 py-2 text-sm font-medium text-gray-600 transition-colors rounded-md hover:text-gray-900"
 								>
 									Sign in
 								</Link>
 								<Link
 									href="/auth/signup"
-									className="bg-gradient-to-r from-purple-600 to-teal-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover-gradient shadow-sm"
+									className="px-4 py-2 text-sm font-medium text-white rounded-lg shadow-sm bg-gradient-to-r from-purple-600 to-teal-500 hover-gradient"
 								>
 									Sign up
 								</Link>

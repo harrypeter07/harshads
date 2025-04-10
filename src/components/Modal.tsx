@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment } from "react";
+import { useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
@@ -11,55 +11,59 @@ interface ModalProps {
 	children: React.ReactNode;
 }
 
-export default function Modal({ isOpen, onClose, title, children }: ModalProps) {
-	return (
-		<Transition.Root show={isOpen} as={Fragment}>
-			<Dialog as="div" className="relative z-50" onClose={onClose}>
-				<Transition.Child
-					as={Fragment}
-					enter="ease-out duration-300"
-					enterFrom="opacity-0"
-					enterTo="opacity-100"
-					leave="ease-in duration-200"
-					leaveFrom="opacity-100"
-					leaveTo="opacity-0"
-				>
-					<div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-				</Transition.Child>
+export default function Modal({
+	isOpen,
+	onClose,
+	title,
+	children,
+}: ModalProps) {
+	useEffect(() => {
+		const handleEscape = (e: KeyboardEvent) => {
+			if (e.key === "Escape") {
+				onClose();
+			}
+		};
 
-				<div className="fixed inset-0 z-10 overflow-y-auto">
-					<div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-						<Transition.Child
-							as={Fragment}
-							enter="ease-out duration-300"
-							enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-							enterTo="opacity-100 translate-y-0 sm:scale-100"
-							leave="ease-in duration-200"
-							leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-							leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-						>
-							<Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-								<div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
-									<button
-										type="button"
-										className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-										onClick={onClose}
-									>
-										<span className="sr-only">Close</span>
-										<XMarkIcon className="h-6 w-6" aria-hidden="true" />
-									</button>
-								</div>
-								<div>
-									<Dialog.Title as="h3" className="text-lg font-semibold leading-6 text-gray-900 mb-4">
-										{title}
-									</Dialog.Title>
-									{children}
-								</div>
-							</Dialog.Panel>
-						</Transition.Child>
+		if (isOpen) {
+			document.addEventListener("keydown", handleEscape);
+			document.body.style.overflow = "hidden";
+		}
+
+		return () => {
+			document.removeEventListener("keydown", handleEscape);
+			document.body.style.overflow = "unset";
+		};
+	}, [isOpen, onClose]);
+
+	if (!isOpen) return null;
+
+	return (
+		<div className="fixed inset-0 z-50 overflow-y-auto">
+			<div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+				<div className="fixed inset-0 transition-opacity" aria-hidden="true">
+					<div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+				</div>
+
+				<span
+					className="hidden sm:inline-block sm:align-middle sm:h-screen"
+					aria-hidden="true"
+				>
+					&#8203;
+				</span>
+
+				<div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+					<div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+						<div className="sm:flex sm:items-start">
+							<div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
+								<h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
+									{title}
+								</h3>
+								<div className="mt-2">{children}</div>
+							</div>
+						</div>
 					</div>
 				</div>
-			</Dialog>
-		</Transition.Root>
+			</div>
+		</div>
 	);
 }
