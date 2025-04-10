@@ -4,10 +4,26 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+type TimeSlot = {
+	morning: boolean;
+	afternoon: boolean;
+	evening: boolean;
+};
+
+type AvailabilityState = {
+	monday: TimeSlot;
+	tuesday: TimeSlot;
+	wednesday: TimeSlot;
+	thursday: TimeSlot;
+	friday: TimeSlot;
+	saturday: TimeSlot;
+	sunday: TimeSlot;
+};
+
 export default function Availability() {
 	const { data: session, status } = useSession();
 	const router = useRouter();
-	const [availability, setAvailability] = useState({
+	const [availability, setAvailability] = useState<AvailabilityState>({
 		monday: { morning: false, afternoon: false, evening: false },
 		tuesday: { morning: false, afternoon: false, evening: false },
 		wednesday: { morning: false, afternoon: false, evening: false },
@@ -17,13 +33,15 @@ export default function Availability() {
 		sunday: { morning: false, afternoon: false, evening: false },
 	});
 
-	const handleCheckboxChange = (day: string, timeSlot: string) => {
+	const handleCheckboxChange = (
+		day: keyof AvailabilityState,
+		timeSlot: keyof TimeSlot
+	) => {
 		setAvailability((prev) => ({
 			...prev,
 			[day]: {
-				...prev[day as keyof typeof prev],
-				[timeSlot]:
-					!prev[day as keyof typeof prev][timeSlot as keyof (typeof prev)[day]],
+				...prev[day],
+				[timeSlot]: !prev[day][timeSlot],
 			},
 		}));
 	};
@@ -100,7 +118,12 @@ export default function Availability() {
 													<input
 														type="checkbox"
 														checked={isAvailable}
-														onChange={() => handleCheckboxChange(day, timeSlot)}
+														onChange={() =>
+															handleCheckboxChange(
+																day as keyof AvailabilityState,
+																timeSlot as keyof TimeSlot
+															)
+														}
 														className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
 													/>
 												</td>
