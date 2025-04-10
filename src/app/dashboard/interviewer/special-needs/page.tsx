@@ -4,10 +4,32 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+interface AccommodationCategory {
+	screenReader?: boolean;
+	highContrast?: boolean;
+	largeText?: boolean;
+	brailleMaterials?: boolean;
+	signLanguage?: boolean;
+	captioning?: boolean;
+	writtenCommunication?: boolean;
+	assistiveDevices?: boolean;
+	extraTime?: boolean;
+	breaks?: boolean;
+	quietEnvironment?: boolean;
+	assistiveTechnology?: boolean;
+}
+
+interface AccommodationsState {
+	visualImpairment: AccommodationCategory;
+	hearingImpairment: AccommodationCategory;
+	cognitiveImpairment: AccommodationCategory;
+	physicalImpairment: AccommodationCategory;
+}
+
 export default function SpecialNeeds() {
 	const { data: session, status } = useSession();
 	const router = useRouter();
-	const [accommodations, setAccommodations] = useState({
+	const [accommodations, setAccommodations] = useState<AccommodationsState>({
 		visualImpairment: {
 			screenReader: false,
 			highContrast: false,
@@ -20,29 +42,29 @@ export default function SpecialNeeds() {
 			writtenCommunication: false,
 			assistiveDevices: false,
 		},
-		mobilityImpairment: {
-			wheelchairAccess: false,
-			ergonomicSetup: false,
-			assistiveDevices: false,
-			extraTime: false,
-		},
 		cognitiveImpairment: {
-			clearInstructions: false,
 			extraTime: false,
 			breaks: false,
-			writtenMaterials: false,
+			quietEnvironment: false,
+			assistiveTechnology: false,
+		},
+		physicalImpairment: {
+			extraTime: false,
+			breaks: false,
+			quietEnvironment: false,
+			assistiveTechnology: false,
 		},
 	});
 
-	const handleCheckboxChange = (category: string, accommodation: string) => {
+	const handleCheckboxChange = (
+		category: keyof AccommodationsState,
+		accommodation: keyof AccommodationCategory
+	) => {
 		setAccommodations((prev) => ({
 			...prev,
 			[category]: {
-				...prev[category as keyof typeof prev],
-				[accommodation]:
-					!prev[category as keyof typeof prev][
-						accommodation as keyof (typeof prev)[category]
-					],
+				...prev[category],
+				[accommodation]: !prev[category][accommodation],
 			},
 		}));
 	};
@@ -102,7 +124,12 @@ export default function SpecialNeeds() {
 												type="checkbox"
 												id={`${category}-${option}`}
 												checked={isSelected}
-												onChange={() => handleCheckboxChange(category, option)}
+												onChange={() =>
+													handleCheckboxChange(
+														category as keyof AccommodationsState,
+														option as keyof AccommodationCategory
+													)
+												}
 												className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
 											/>
 											<label
