@@ -77,10 +77,10 @@ export default function SpecialNeeds() {
 
 	if (status === "loading") {
 		return (
-			<div className="min-h-screen bg-gradient-to-br from-purple-50 to-teal-50 py-12 px-4 sm:px-6 lg:px-8">
-				<div className="max-w-7xl mx-auto">
+			<div className="min-h-screen px-4 py-12 bg-gradient-to-br from-purple-50 to-teal-50 sm:px-6 lg:px-8">
+				<div className="mx-auto max-w-7xl">
 					<div className="animate-pulse">
-						<div className="h-8 bg-gray-200 rounded w-1/4 mb-8"></div>
+						<div className="w-1/4 h-8 mb-8 bg-gray-200 rounded"></div>
 						<div className="space-y-4">
 							{[1, 2, 3].map((i) => (
 								<div key={i} className="h-24 bg-gray-200 rounded"></div>
@@ -93,59 +93,64 @@ export default function SpecialNeeds() {
 	}
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-purple-50 to-teal-50 py-12 px-4 sm:px-6 lg:px-8">
-			<div className="max-w-7xl mx-auto">
-				<div className="flex justify-between items-center mb-8">
+		<div className="min-h-screen px-4 py-12 bg-gradient-to-br from-purple-50 to-teal-50 sm:px-6 lg:px-8">
+			<div className="mx-auto max-w-7xl">
+				<div className="flex items-center justify-between mb-8">
 					<h1 className="text-3xl font-bold text-gray-900">
 						Special Needs Support
 					</h1>
 					<button
 						onClick={() => router.push("/dashboard/interviewer")}
-						className="bg-gradient-to-r from-purple-600 to-teal-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-purple-700 hover:to-teal-600 shadow-sm"
+						className="px-4 py-2 text-sm font-medium text-white rounded-lg shadow-sm bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600"
 					>
 						Back to Dashboard
 					</button>
 				</div>
 
-				<div className="bg-white rounded-xl shadow-lg p-6 border-2 border-blue-900">
+				<div className="p-6 bg-white border-2 border-blue-900 shadow-lg rounded-xl">
 					<form onSubmit={handleSubmit} className="space-y-8">
 						{Object.entries(accommodations).map(([category, options]) => (
 							<div key={category} className="space-y-4">
 								<h3 className="text-lg font-medium text-gray-900">
 									{category
 										.split(/(?=[A-Z])/)
-										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+										.map(
+											(word: string) =>
+												word.charAt(0).toUpperCase() + word.slice(1)
+										)
 										.join(" ")}
 								</h3>
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-									{Object.entries(options).map(([option, isSelected]) => (
-										<div key={option} className="flex items-center">
-											<input
-												type="checkbox"
-												id={`${category}-${option}`}
-												checked={isSelected}
-												onChange={() =>
-													handleCheckboxChange(
-														category as keyof AccommodationsState,
-														option as keyof AccommodationCategory
-													)
-												}
-												className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-											/>
-											<label
-												htmlFor={`${category}-${option}`}
-												className="ml-3 text-sm text-gray-700"
-											>
-												{option
-													.split(/(?=[A-Z])/)
-													.map(
-														(word) =>
-															word.charAt(0).toUpperCase() + word.slice(1)
-													)
-													.join(" ")}
-											</label>
-										</div>
-									))}
+								<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+									{Object.entries(options as AccommodationCategory).map(
+										([option, isSelected]: [string, boolean]) => (
+											<div key={option} className="flex items-center">
+												<input
+													type="checkbox"
+													id={`${category}-${option}`}
+													checked={isSelected}
+													onChange={() =>
+														handleCheckboxChange(
+															category as keyof AccommodationsState,
+															option as keyof AccommodationCategory
+														)
+													}
+													className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+												/>
+												<label
+													htmlFor={`${category}-${option}`}
+													className="ml-3 text-sm text-gray-700"
+												>
+													{option
+														.split(/(?=[A-Z])/)
+														.map(
+															(word) =>
+																word.charAt(0).toUpperCase() + word.slice(1)
+														)
+														.join(" ")}
+												</label>
+											</div>
+										)
+									)}
 								</div>
 							</div>
 						))}
@@ -153,7 +158,7 @@ export default function SpecialNeeds() {
 						<div className="flex justify-end">
 							<button
 								type="submit"
-								className="bg-gradient-to-r from-purple-600 to-teal-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-purple-700 hover:to-teal-600 shadow-sm"
+								className="px-4 py-2 text-sm font-medium text-white rounded-lg shadow-sm bg-gradient-to-r from-purple-600 to-teal-500 hover:from-purple-700 hover:to-teal-600"
 							>
 								Save Accommodations
 							</button>
@@ -161,8 +166,8 @@ export default function SpecialNeeds() {
 					</form>
 				</div>
 
-				<div className="mt-8 bg-white rounded-xl shadow-lg p-6 border-2 border-blue-900">
-					<h2 className="text-xl font-semibold text-gray-900 mb-4">
+				<div className="p-6 mt-8 bg-white border-2 border-blue-900 shadow-lg rounded-xl">
+					<h2 className="mb-4 text-xl font-semibold text-gray-900">
 						Accommodation Guidelines
 					</h2>
 					<div className="space-y-4">
