@@ -30,8 +30,8 @@ export default function AdminDashboard() {
 		const pendingInterviews = interviewRequests.filter(
 			(req) => req.status === "pending"
 		).length;
-		const completedInterviews = interviewRequests.filter(
-			(req) => req.status === "completed"
+		const acceptedInterviews = interviewRequests.filter(
+			(req) => req.status === "accepted"
 		).length;
 
 		setStats({
@@ -40,7 +40,7 @@ export default function AdminDashboard() {
 			interviewers,
 			totalInterviews,
 			pendingInterviews,
-			completedInterviews,
+			completedInterviews: acceptedInterviews,
 		});
 	}, [status, session, router]);
 
