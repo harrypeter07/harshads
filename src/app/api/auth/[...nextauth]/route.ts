@@ -12,14 +12,18 @@ const handler = NextAuth({
 			},
 			async authorize(credentials) {
 				if (!credentials?.email || !credentials?.password) {
-					return null;
+					throw new Error("Please enter both email and password");
 				}
 
 				const user = users.find((u) => u.email === credentials.email);
 
-				if (!user || user.password !== credentials.password) {
-					// In production, use proper password comparison
-					return null;
+				if (!user) {
+					throw new Error("No user found with this email");
+				}
+
+				// In a real app, we would hash passwords. For mock data, we do direct comparison
+				if (user.password !== credentials.password) {
+					throw new Error("Invalid password");
 				}
 
 				return {
@@ -31,25 +35,25 @@ const handler = NextAuth({
 			},
 		}),
 	],
+	pages: {
+		signIn: "/auth/signin",
+		error: "/auth/error",
+	},
 	callbacks: {
 		async jwt({ token, user }) {
 			if (user) {
-				token.role = user.role;
 				token.id = user.id;
+				token.role = user.role;
 			}
 			return token;
 		},
 		async session({ session, token }) {
-			if (session?.user) {
-				session.user.role = token.role;
-				session.user.id = token.id;
+			if (session.user) {
+				session.user.id = token.id as string;
+				session.user.role = token.role as string;
 			}
 			return session;
 		},
-	},
-	pages: {
-		signIn: "/auth/signin",
-		error: "/auth/error",
 	},
 	session: {
 		strategy: "jwt",
