@@ -120,6 +120,7 @@ export default function CandidatesPage() {
 						setShowErrorModal(false);
 						setError("");
 					}}
+					title="Error"
 				>
 					{error}
 				</Modal>
