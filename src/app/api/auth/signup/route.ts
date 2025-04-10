@@ -95,7 +95,7 @@ export async function POST(request: Request) {
 						company: company,
 						position: position,
 						startDate: new Date().toISOString(),
-						endDate: null,
+						endDate: undefined,
 						description: "Current position",
 					},
 				],
