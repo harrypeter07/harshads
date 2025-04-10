@@ -91,6 +91,7 @@ export async function POST(request: Request) {
 				experience: experience,
 				workExperience: [
 					{
+						id: "1",
 						company: company,
 						position: position,
 						startDate: new Date().toISOString(),
