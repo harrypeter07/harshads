@@ -41,58 +41,41 @@ export default function JobSeekerDashboard() {
 			}
 
 			// Fetch applications (mock data)
-			const userApplications = [
+			const userApplications: JobApplication[] = [
 				{
 					id: "1",
-					jobId: "101",
+					jobId: "1",
 					userId: session.user.id,
-					status: "interview",
-					appliedAt: "2024-03-01T10:00:00Z",
+					status: "pending" as const,
+					appliedAt: "2024-02-20",
 					job: {
-						title: "Senior Frontend Developer",
+						title: "Frontend Developer",
 						company: "Tech Corp",
-						location: "San Francisco, CA",
+						location: "Remote",
 						type: "full-time",
-						salary: "$120,000 - $150,000",
-						description:
-							"Looking for an experienced frontend developer to join our team.",
-					},
-					interview: {
-						date: "2024-03-15",
-						time: "14:00",
-						type: "online",
-						status: "scheduled",
+						salary: "$80,000 - $100,000",
+						description: "Looking for a skilled frontend developer...",
 					},
 				},
 				{
 					id: "2",
-					jobId: "102",
+					jobId: "2",
 					userId: session.user.id,
-					status: "reviewed",
-					appliedAt: "2024-02-28T15:30:00Z",
+					status: "interview" as const,
+					appliedAt: "2024-02-19",
 					job: {
-						title: "React Developer",
-						company: "Web Solutions Inc",
-						location: "Remote",
+						title: "Backend Developer",
+						company: "Dev Solutions",
+						location: "New York",
 						type: "full-time",
 						salary: "$90,000 - $110,000",
-						description: "Join our remote team as a React developer.",
+						description: "Seeking an experienced backend developer...",
 					},
-				},
-				{
-					id: "3",
-					jobId: "103",
-					userId: session.user.id,
-					status: "pending",
-					appliedAt: "2024-03-05T09:15:00Z",
-					job: {
-						title: "Full Stack Developer",
-						company: "StartupX",
-						location: "New York, NY",
-						type: "full-time",
-						salary: "$100,000 - $130,000",
-						description:
-							"Full stack developer position with modern tech stack.",
+					interview: {
+						date: "2024-03-01",
+						time: "14:00",
+						type: "online",
+						status: "scheduled",
 					},
 				},
 			];
