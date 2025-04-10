@@ -122,12 +122,14 @@ export default function AdminUsers() {
 							</thead>
 							<tbody className="bg-white divide-y divide-gray-200">
 								{filteredUsers.map((user) => {
-									const profile = profiles.find((p) => p.userId === user.id);
+									const profile = profiles[user.id];
 									return (
 										<tr key={user.id}>
 											<td className="px-6 py-4 whitespace-nowrap">
 												<div className="text-sm font-medium text-gray-900">
-													{profile?.name || "N/A"}
+													{profile
+														? `${profile.firstName} ${profile.lastName}`
+														: user.name}
 												</div>
 											</td>
 											<td className="px-6 py-4 whitespace-nowrap">
