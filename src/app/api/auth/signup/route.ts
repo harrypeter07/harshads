@@ -10,10 +10,30 @@ import {
 export async function POST(request: Request) {
 	try {
 		const body = await request.json();
-		const { email, password, role, name } = body;
+		const {
+			email,
+			password,
+			role,
+			name,
+			phone,
+			company,
+			position,
+			expertise,
+			experience,
+		} = body;
 
 		// Validate required fields
-		if (!email || !password || !role || !name) {
+		if (
+			!email ||
+			!password ||
+			!role ||
+			!name ||
+			!phone ||
+			!company ||
+			!position ||
+			!expertise ||
+			!experience
+		) {
 			return NextResponse.json(
 				{ message: "All fields are required" },
 				{ status: 400 }
@@ -64,11 +84,38 @@ export async function POST(request: Request) {
 				userId: newUser.id,
 				firstName: name.split(" ")[0],
 				lastName: name.split(" ").slice(1).join(" "),
-				phone: "",
-				company: "",
-				position: "",
-				expertise: [],
-				experience: 0,
+				phone: phone,
+				company: company,
+				position: position,
+				expertise: expertise,
+				experience: experience,
+				workExperience: [
+					{
+						company: company,
+						position: position,
+						startDate: new Date().toISOString(),
+						endDate: null,
+						description: "Current position",
+					},
+				],
+				education: [
+					{
+						institution: "University",
+						degree: "Bachelor's Degree",
+						field: "Human Resources",
+						startDate: new Date().toISOString(),
+						endDate: new Date().toISOString(),
+					},
+				],
+				skills: expertise,
+				languages: ["English", "Hindi"],
+				certifications: [
+					{
+						name: "Interviewing Skills",
+						issuer: "Professional Development",
+						date: new Date().toISOString(),
+					},
+				],
 				createdAt: new Date().toISOString(),
 				updatedAt: new Date().toISOString(),
 			};
