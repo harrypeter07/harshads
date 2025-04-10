@@ -57,8 +57,38 @@ export async function POST(request: Request) {
 			phone,
 			company,
 			position,
-			expertise: expertise.split(",").map((skill: string) => skill.trim()),
-			experience: parseInt(experience),
+			expertise,
+			experience,
+			workExperience: [
+				{
+					id: "1",
+					company,
+					position,
+					startDate: new Date().toISOString(),
+					endDate: null,
+					description: "Current position",
+				},
+			],
+			education: [
+				{
+					id: "1",
+					institution: "University",
+					degree: "Bachelor's Degree",
+					field: "Human Resources",
+					startDate: new Date().toISOString(),
+					endDate: new Date().toISOString(),
+				},
+			],
+			skills: expertise,
+			languages: ["English", "Hindi"],
+			certifications: [
+				{
+					id: "1",
+					name: "Interviewing Skills",
+					issuer: "Professional Development",
+					date: new Date().toISOString(),
+				},
+			],
 			createdAt: new Date().toISOString(),
 			updatedAt: new Date().toISOString(),
 		};
