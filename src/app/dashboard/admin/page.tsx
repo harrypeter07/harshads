@@ -128,7 +128,7 @@ export default function AdminDashboard() {
 					</div>
 				</div>
 
-				<div className="bg-white rounded-xl shadow-lg p-6 border-2 border-blue-900">
+				<div className="bg-white rounded-xl shadow-lg p-6 border-2 border-blue-900 mb-8">
 					<h2 className="text-xl font-semibold text-gray-900 mb-4">
 						Recent Activity
 					</h2>
@@ -155,7 +155,7 @@ export default function AdminDashboard() {
 					</div>
 				</div>
 
-				<div className="mt-8 bg-white rounded-xl shadow-lg p-6 border-2 border-blue-900">
+				<div className="bg-white rounded-xl shadow-lg p-6 border-2 border-blue-900">
 					<h2 className="text-xl font-semibold text-gray-900 mb-4">
 						Admin Guidelines
 					</h2>

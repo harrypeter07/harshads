@@ -51,6 +51,7 @@ export async function POST(request: Request) {
 
 		// Create or update profile
 		profiles[session.user.id] = {
+			id: session.user.id,
 			userId: session.user.id,
 			firstName,
 			lastName,
@@ -73,8 +74,8 @@ export async function POST(request: Request) {
 				{
 					id: "1",
 					institution: "University",
-					degree: "Bachelor's Degree",
-					field: "Human Resources",
+					degree: "Bachelor's",
+					field: "Computer Science",
 					startDate: new Date().toISOString(),
 					endDate: new Date().toISOString(),
 				},
@@ -84,11 +85,12 @@ export async function POST(request: Request) {
 			certifications: [
 				{
 					id: "1",
-					name: "Interviewing Skills",
-					issuer: "Professional Development",
+					name: "Certification",
+					issuer: "Issuing Organization",
 					date: new Date().toISOString(),
 				},
 			],
+			areasOfExpertise: expertise,
 			createdAt: new Date().toISOString(),
 			updatedAt: new Date().toISOString(),
 		};

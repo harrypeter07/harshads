@@ -23,19 +23,9 @@ export async function POST(request: Request) {
 		} = body;
 
 		// Validate required fields
-		if (
-			!email ||
-			!password ||
-			!role ||
-			!name ||
-			!phone ||
-			!company ||
-			!position ||
-			!expertise ||
-			!experience
-		) {
+		if (!email || !password || !role || !name) {
 			return NextResponse.json(
-				{ message: "All fields are required" },
+				{ message: "Email, password, role, and name are required" },
 				{ status: 400 }
 			);
 		}
@@ -70,29 +60,41 @@ export async function POST(request: Request) {
 				userId: newUser.id,
 				firstName: name.split(" ")[0],
 				lastName: name.split(" ").slice(1).join(" "),
-				phone: "",
+				phone: phone || "",
 				skills: [],
 				experience: [],
 				education: [],
-				resume: "",
+				resume: null,
 				createdAt: new Date().toISOString(),
 				updatedAt: new Date().toISOString(),
 			};
 			profiles[newUser.id] = newProfile;
 		} else if (role === "interviewer") {
+			if (!phone || !company || !position || !expertise || !experience) {
+				return NextResponse.json(
+					{
+						message:
+							"Phone, company, position, expertise, and experience are required for interviewers",
+					},
+					{ status: 400 }
+				);
+			}
+
 			const newProfile: InterviewerProfile = {
+				id: newUser.id,
 				userId: newUser.id,
 				firstName: name.split(" ")[0],
 				lastName: name.split(" ").slice(1).join(" "),
-				phone: phone,
-				company: company,
-				position: position,
-				expertise: expertise,
-				experience: experience,
+				phone,
+				company,
+				position,
+				expertise: Array.isArray(expertise) ? expertise : [expertise],
+				experience: parseInt(experience),
 				workExperience: [
 					{
-						company: company,
-						position: position,
+						id: "1",
+						company,
+						position,
 						startDate: new Date().toISOString(),
 						endDate: new Date().toISOString(),
 						description: "Current position",
@@ -100,22 +102,25 @@ export async function POST(request: Request) {
 				],
 				education: [
 					{
+						id: "1",
 						institution: "University",
-						degree: "Bachelor's Degree",
-						field: "Human Resources",
+						degree: "Bachelor's",
+						field: "Computer Science",
 						startDate: new Date().toISOString(),
 						endDate: new Date().toISOString(),
 					},
 				],
-				skills: expertise,
+				skills: Array.isArray(expertise) ? expertise : [expertise],
 				languages: ["English", "Hindi"],
 				certifications: [
 					{
-						name: "Interviewing Skills",
-						issuer: "Professional Development",
+						id: "1",
+						name: "Certification",
+						issuer: "Issuing Organization",
 						date: new Date().toISOString(),
 					},
 				],
+				areasOfExpertise: Array.isArray(expertise) ? expertise : [expertise],
 				createdAt: new Date().toISOString(),
 				updatedAt: new Date().toISOString(),
 			};

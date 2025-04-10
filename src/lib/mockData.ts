@@ -57,6 +57,7 @@ export interface JobSeekerProfile {
 	phone: string;
 	skills: string[];
 	experience: Array<{
+		id: string;
 		company: string;
 		position: string;
 		startDate: string;
@@ -64,18 +65,20 @@ export interface JobSeekerProfile {
 		description: string;
 	}>;
 	education: Array<{
+		id: string;
 		institution: string;
 		degree: string;
 		field: string;
 		startDate: string;
 		endDate: string;
 	}>;
-	resume: string;
+	resume: string | null;
 	createdAt: string;
 	updatedAt: string;
 }
 
 export interface InterviewerProfile {
+	id: string;
 	userId: string;
 	firstName: string;
 	lastName: string;
@@ -85,6 +88,7 @@ export interface InterviewerProfile {
 	expertise: string[];
 	experience: number;
 	workExperience: Array<{
+		id: string;
 		company: string;
 		position: string;
 		startDate: string;
@@ -92,6 +96,7 @@ export interface InterviewerProfile {
 		description: string;
 	}>;
 	education: Array<{
+		id: string;
 		institution: string;
 		degree: string;
 		field: string;
@@ -101,10 +106,12 @@ export interface InterviewerProfile {
 	skills: string[];
 	languages: string[];
 	certifications: Array<{
+		id: string;
 		name: string;
 		issuer: string;
 		date: string;
 	}>;
+	areasOfExpertise: string[];
 	createdAt: string;
 	updatedAt: string;
 }
@@ -386,6 +393,7 @@ export const profiles: {
 	[key: string]: JobSeekerProfile | InterviewerProfile;
 } = {
 	"2": {
+		id: "2",
 		userId: "2",
 		firstName: "Jane",
 		lastName: "Smith",
@@ -401,36 +409,23 @@ export const profiles: {
 		experience: 8,
 		workExperience: [
 			{
-				company: "TechCorp",
-				position: "Senior Technical Interviewer",
-				startDate: "2020-01",
-				endDate: "present",
+				id: "1",
+				company: "Nayi Disha Foundation",
+				position: "Senior Interviewer & Accessibility Specialist",
+				startDate: "2020-01-01",
+				endDate: "2024-12-31",
 				description:
-					"Conducting technical interviews for senior engineering positions",
-			},
-			{
-				company: "InnovateSoft",
-				position: "Lead Software Engineer",
-				startDate: "2016-03",
-				endDate: "2019-12",
-				description:
-					"Led a team of developers and conducted technical interviews",
+					"Leading inclusive hiring initiatives and conducting interviews for underprivileged and disabled candidates",
 			},
 		],
 		education: [
 			{
-				institution: "Stanford University",
-				degree: "Master's",
-				field: "Computer Science",
-				startDate: "2014",
-				endDate: "2016",
-			},
-			{
-				institution: "University of California, Berkeley",
-				degree: "Bachelor's",
-				field: "Computer Science",
-				startDate: "2010",
-				endDate: "2014",
+				id: "1",
+				institution: "Tata Institute of Social Sciences",
+				degree: "Master of Social Work",
+				field: "Disability Studies",
+				startDate: "2016-01-01",
+				endDate: "2018-12-31",
 			},
 		],
 		skills: [
@@ -446,18 +441,22 @@ export const profiles: {
 		languages: ["English", "Mandarin"],
 		certifications: [
 			{
-				name: "AWS Certified Solutions Architect",
-				issuer: "Amazon Web Services",
-				date: "2023",
-			},
-			{
-				name: "Google Cloud Professional Cloud Architect",
-				issuer: "Google",
-				date: "2022",
+				id: "1",
+				name: "Certified Disability Employment Specialist",
+				issuer:
+					"National Centre for Promotion of Employment for Disabled People",
+				date: "2019-06-01",
 			},
 		],
+		areasOfExpertise: [
+			"Inclusive Hiring",
+			"Disability Awareness",
+			"Sign Language Interpretation",
+			"Career Counseling",
+			"Accessibility Assessment",
+		],
 		createdAt: "2024-01-01T00:00:00Z",
-		updatedAt: "2024-01-01T00:00:00Z",
+		updatedAt: "2024-03-20T00:00:00Z",
 	},
 	"3": {
 		userId: "3",
@@ -467,6 +466,7 @@ export const profiles: {
 		skills: ["JavaScript", "React", "Node.js"],
 		experience: [
 			{
+				id: "exp1",
 				company: "Tech Corp",
 				position: "Frontend Developer",
 				startDate: "2020-01-01",
@@ -476,6 +476,7 @@ export const profiles: {
 		],
 		education: [
 			{
+				id: "1",
 				institution: "University of Technology",
 				degree: "Bachelor's",
 				field: "Computer Science",
@@ -486,6 +487,64 @@ export const profiles: {
 		resume: "https://example.com/resume.pdf",
 		createdAt: "2024-01-01T00:00:00Z",
 		updatedAt: "2024-01-01T00:00:00Z",
+	},
+	"1": {
+		id: "1",
+		userId: "1",
+		firstName: "Priya",
+		lastName: "Sharma",
+		phone: "+919876543210",
+		company: "Nayi Disha Foundation",
+		position: "Senior Interviewer & Accessibility Specialist",
+		expertise: ["Inclusive Hiring", "Disability Awareness", "Sign Language"],
+		experience: 5,
+		workExperience: [
+			{
+				id: "1",
+				company: "Nayi Disha Foundation",
+				position: "Senior Interviewer & Accessibility Specialist",
+				startDate: "2020-01-01",
+				endDate: "2024-12-31",
+				description:
+					"Leading inclusive hiring initiatives and conducting interviews for underprivileged and disabled candidates",
+			},
+		],
+		education: [
+			{
+				id: "1",
+				institution: "Tata Institute of Social Sciences",
+				degree: "Master of Social Work",
+				field: "Disability Studies",
+				startDate: "2016-01-01",
+				endDate: "2018-12-31",
+			},
+		],
+		skills: [
+			"Inclusive Hiring",
+			"Disability Awareness",
+			"Sign Language Interpretation",
+			"Career Counseling",
+			"Accessibility Assessment",
+		],
+		languages: ["English", "Hindi", "Indian Sign Language"],
+		certifications: [
+			{
+				id: "1",
+				name: "Certified Disability Employment Specialist",
+				issuer:
+					"National Centre for Promotion of Employment for Disabled People",
+				date: "2019-06-01",
+			},
+		],
+		areasOfExpertise: [
+			"Inclusive Hiring",
+			"Disability Awareness",
+			"Sign Language Interpretation",
+			"Career Counseling",
+			"Accessibility Assessment",
+		],
+		createdAt: "2020-01-01T00:00:00Z",
+		updatedAt: "2023-01-01T00:00:00Z",
 	},
 };
 
@@ -621,5 +680,129 @@ export const interviewRequests: InterviewRequest[] = [
 		specialNeeds: "Visual impairment, requires screen magnification software",
 		createdAt: "2024-03-16T11:00:00Z",
 		updatedAt: "2024-03-16T16:00:00Z",
+	},
+];
+
+export const interviewerProfiles: InterviewerProfile[] = [
+	{
+		id: "1",
+		userId: "1",
+		firstName: "Priya",
+		lastName: "Sharma",
+		phone: "+919876543210",
+		company: "Nayi Disha Foundation",
+		position: "Senior Interviewer & Accessibility Specialist",
+		expertise: ["Inclusive Hiring", "Disability Awareness", "Sign Language"],
+		experience: 5,
+		workExperience: [
+			{
+				id: "1",
+				company: "Nayi Disha Foundation",
+				position: "Senior Interviewer & Accessibility Specialist",
+				startDate: "2020-01-01",
+				endDate: "2024-12-31",
+				description:
+					"Leading inclusive hiring initiatives and conducting interviews for underprivileged and disabled candidates",
+			},
+		],
+		education: [
+			{
+				id: "1",
+				institution: "Tata Institute of Social Sciences",
+				degree: "Master of Social Work",
+				field: "Disability Studies",
+				startDate: "2016-01-01",
+				endDate: "2018-12-31",
+			},
+		],
+		skills: [
+			"Inclusive Hiring",
+			"Disability Awareness",
+			"Sign Language Interpretation",
+			"Career Counseling",
+			"Accessibility Assessment",
+		],
+		languages: ["English", "Hindi", "Indian Sign Language"],
+		certifications: [
+			{
+				id: "1",
+				name: "Certified Disability Employment Specialist",
+				issuer:
+					"National Centre for Promotion of Employment for Disabled People",
+				date: "2019-06-01",
+			},
+		],
+		areasOfExpertise: [
+			"Inclusive Hiring",
+			"Disability Awareness",
+			"Sign Language Interpretation",
+			"Career Counseling",
+			"Accessibility Assessment",
+		],
+		createdAt: "2020-01-01T00:00:00Z",
+		updatedAt: "2023-01-01T00:00:00Z",
+	},
+];
+
+export const jobSeekerProfiles: JobSeekerProfile[] = [
+	{
+		userId: "1",
+		firstName: "Rahul",
+		lastName: "Kumar",
+		phone: "+91 98765 43210",
+		skills: ["Data Entry", "MS Office", "Typing"],
+		experience: [
+			{
+				id: "exp1",
+				company: "Rural Development Center",
+				position: "Data Entry Operator",
+				startDate: "2022-01-01",
+				endDate: "2023-12-31",
+				description: "Managed data entry for rural development projects",
+			},
+		],
+		education: [
+			{
+				id: "edu1",
+				institution: "Bihar State University",
+				degree: "Bachelor of Arts",
+				field: "Economics",
+				startDate: "2018-07-01",
+				endDate: "2022-06-30",
+			},
+		],
+		resume: null,
+		createdAt: "2023-01-01T00:00:00Z",
+		updatedAt: "2023-01-01T00:00:00Z",
+	},
+	{
+		userId: "2",
+		firstName: "Priya",
+		lastName: "Sharma",
+		phone: "+91 98765 43211",
+		skills: ["Customer Service", "Communication", "Problem Solving"],
+		experience: [
+			{
+				id: "exp2",
+				company: "Urban Support Center",
+				position: "Customer Support Associate",
+				startDate: "2021-06-01",
+				endDate: "2023-12-31",
+				description: "Provided customer support and assistance",
+			},
+		],
+		education: [
+			{
+				id: "edu2",
+				institution: "Mumbai University",
+				degree: "Bachelor of Commerce",
+				field: "Business Administration",
+				startDate: "2017-07-01",
+				endDate: "2021-06-30",
+			},
+		],
+		resume: null,
+		createdAt: "2023-01-02T00:00:00Z",
+		updatedAt: "2023-01-02T00:00:00Z",
 	},
 ];
